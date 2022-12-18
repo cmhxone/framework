@@ -77,6 +77,7 @@ namespace framework
      */
     void DestroyFramework()
     {
+        google::ShutdownGoogleLogging();
         TTF_Quit();
         Mix_Quit();
         IMG_Quit();
