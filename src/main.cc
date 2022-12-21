@@ -27,11 +27,11 @@ int main(int argc, char *argv[])
     window->SetSize(width, height);
     window->SetPos(pos_x == 0 ? SDL_WINDOWPOS_UNDEFINED : pos_x, pos_y == 0 ? SDL_WINDOWPOS_UNDEFINED : pos_y);
 
-    window->PushRenderFunction([]() -> void
-                               { LOG(INFO) << "renderfunction1(): called"; });
+    window->PushRenderFunction([](Window *window) -> void
+                               { LOG(INFO) << "renderfunction1(): title=" << window->GetTitle(); });
 
-    window->PushRenderFunction([]() -> void
-                               { LOG(INFO) << "renderfunction2(): called"; });
+    window->PushRenderFunction([](Window *window) -> void
+                               { LOG(INFO) << "renderfunction2(): width=" << window->GetWidth() << ", height=" << window->GetHeight(); });
 
     window->StartGameLoop();
 

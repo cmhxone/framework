@@ -62,17 +62,17 @@ void Window::SetWindowFlags(const SDL_WindowFlags flags)
 
 /**
  * @brief Push render-function to member vector
- * 
- * @param fn 
+ *
+ * @param fn
  */
-void Window::PushRenderFunction(std::function<void()> fn)
+void Window::PushRenderFunction(std::function<void(Window *window)> fn)
 {
     this->rendering_functions.push_back(fn);
 }
 
 /**
  * @brief Start window's gameloop
- * 
+ *
  */
 void Window::StartGameLoop()
 {
@@ -92,68 +92,9 @@ void Window::StartGameLoop()
         }
 
         // Call render-functions
-        for (auto fn : this->rendering_functions) {
-            fn();
+        for (auto fn : this->rendering_functions)
+        {
+            fn(this);
         }
     }
-}
-
-/**
- * @brief Get window title name
- *
- * @return const std::string_view
- */
-constexpr const std::string_view Window::GetTitle()
-{
-    return this->title;
-}
-
-/**
- * @brief Get window screen width
- *
- * @return const unsigned int
- */
-constexpr const unsigned int Window::GetWidth()
-{
-    return this->width;
-}
-
-/**
- * @brief Get window screen height
- *
- * @return const unsigned int
- */
-constexpr const unsigned int Window::GetHeight()
-{
-    return this->height;
-}
-
-/**
- * @brief Get window displaying position(left)
- *
- * @return const unsigned int
- */
-constexpr const unsigned int Window::GetPosX()
-{
-    return this->x;
-}
-
-/**
- * @brief Get window displaying position(top)
- *
- * @return const unsigned int
- */
-constexpr const unsigned int Window::GetPosY()
-{
-    return this->y;
-}
-
-/**
- * @brief Get window displaying option flags
- *
- * @return const SDL_WindowFlags
- */
-constexpr const SDL_WindowFlags Window::GetWindowFlags()
-{
-    return this->flags;
 }

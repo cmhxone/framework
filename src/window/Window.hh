@@ -16,16 +16,16 @@ public:
     void SetSize(const unsigned int width, const unsigned int height);
     void SetPos(const unsigned int x, const unsigned int y);
     void SetWindowFlags(const SDL_WindowFlags flags);
-    void PushRenderFunction(std::function<void()> fn);
+    void PushRenderFunction(std::function<void(Window *window)> fn);
 
     void StartGameLoop();
 
-    constexpr const std::string_view GetTitle();
-    constexpr const unsigned int GetWidth();
-    constexpr const unsigned int GetHeight();
-    constexpr const unsigned int GetPosX();
-    constexpr const unsigned int GetPosY();
-    constexpr const SDL_WindowFlags GetWindowFlags();
+    constexpr const std::string_view GetTitle() { return this->title; };
+    constexpr const unsigned int GetWidth() { return this->width; };
+    constexpr const unsigned int GetHeight() { return this->height; };
+    constexpr const unsigned int GetPosX() { return this->x; };
+    constexpr const unsigned int GetPosY() { return this->y; };
+    constexpr const SDL_WindowFlags GetWindowFlags() { return this->flags; };
 
 protected:
 private:
@@ -38,7 +38,7 @@ private:
     SDL_WindowFlags flags = SDL_WINDOW_SHOWN;
     SDL_Event event;
 
-    std::vector<std::function<void()>> rendering_functions;
+    std::vector<std::function<void(Window *window)>> rendering_functions;
 };
 
 #endif
