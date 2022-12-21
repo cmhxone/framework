@@ -11,7 +11,7 @@ public:
     Ini();
     ~Ini();
 
-    INIReader &GetReader();
+    INIReader &GetReader() { return this->reader; };
 
 private:
     INIReader reader = INIReader("../resources/config.ini");

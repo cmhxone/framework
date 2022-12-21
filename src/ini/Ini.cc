@@ -13,8 +13,3 @@ Ini::Ini()
 Ini::~Ini()
 {
 }
-
-INIReader &Ini::GetReader()
-{
-    return this->reader;
-}
