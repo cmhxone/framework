@@ -9,10 +9,15 @@
 Window::Window()
 {
     this->window = SDL_CreateWindow(this->title.data(), this->x, this->y, this->width, this->height, this->flags);
+    this->PushRenderer(-1, SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED));
 }
 
 Window::~Window()
 {
+    for (std::pair<int, SDL_Renderer *> renderer : this->renderers)
+    {
+        SDL_DestroyRenderer(renderer.second);
+    }
     SDL_DestroyWindow(this->window);
 }
 
@@ -84,6 +89,24 @@ void Window::SetWindowFlags(const SDL_WindowFlags flags)
 void Window::PushRenderFunction(std::function<void(Window *window)> fn)
 {
     this->rendering_functions.push_back(fn);
+}
+
+/**
+ * @brief Push renderer to member map
+ *
+ * @param renderer
+ */
+void Window::PushRenderer(const int idx, SDL_Renderer *renderer)
+{
+    if (renderers.find(idx) == renderers.end())
+    {
+        this->renderers.insert({idx, renderer});
+    }
+    else
+    {
+        SDL_DestroyRenderer(this->renderers.at(idx));
+        this->renderers.at(idx) = renderer;
+    }
 }
 
 /**

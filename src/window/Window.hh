@@ -2,8 +2,9 @@
 #define _FRAMEWORK_WINDOW_HEADER_
 
 #include <SDL2/SDL.h>
+
 #include <string_view>
-#include <vector>
+#include <map>
 #include <functional>
 
 class Window
@@ -18,6 +19,7 @@ public:
     void SetFPS(const unsigned int fps);
     void SetWindowFlags(const SDL_WindowFlags flags);
     void PushRenderFunction(std::function<void(Window *window)> fn);
+    void PushRenderer(const int idx, SDL_Renderer* renderer);
 
     void StartGameLoop();
 
@@ -28,6 +30,8 @@ public:
     constexpr const unsigned int GetPosY() { return this->y; };
     constexpr const unsigned int GetFPS() { return this->fps; };
     constexpr const SDL_WindowFlags GetWindowFlags() { return this->flags; };
+
+    SDL_Renderer *GetRenderer(int idx) { return this->renderers.at(idx); };
 
 protected:
 private:
@@ -42,6 +46,7 @@ private:
     SDL_Event event;
 
     std::vector<std::function<void(Window *window)>> rendering_functions;
+    std::map<int, SDL_Renderer *> renderers;
 };
 
 #endif

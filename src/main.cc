@@ -29,11 +29,12 @@ int main(int argc, char *argv[])
     window->SetPos(pos_x == 0 ? SDL_WINDOWPOS_UNDEFINED : pos_x, pos_y == 0 ? SDL_WINDOWPOS_UNDEFINED : pos_y);
     window->SetFPS(fps == 0 ? 60 : fps);
 
-    window->PushRenderFunction([](Window *window) -> void
-                               { LOG(INFO) << "renderfunction1(): title=" << window->GetTitle(); });
-
-    window->PushRenderFunction([](Window *window) -> void
-                               { LOG(INFO) << "renderfunction2(): width=" << window->GetWidth() << ", height=" << window->GetHeight(); });
+    window->PushRenderFunction([](Window* window) {
+        SDL_RenderClear(window->GetRenderer(-1));
+        SDL_SetRenderDrawColor(window->GetRenderer(-1), 0x10, 0x20, 0x50, 0xFF);
+        SDL_RenderFillRect(window->GetRenderer(-1), nullptr);
+        SDL_RenderPresent(window->GetRenderer(-1));
+    });
 
     window->StartGameLoop();
 
