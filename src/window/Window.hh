@@ -15,6 +15,7 @@ public:
     void SetTitle(const std::string_view title);
     void SetSize(const unsigned int width, const unsigned int height);
     void SetPos(const unsigned int x, const unsigned int y);
+    void SetFPS(const unsigned int fps);
     void SetWindowFlags(const SDL_WindowFlags flags);
     void PushRenderFunction(std::function<void(Window *window)> fn);
 
@@ -25,6 +26,7 @@ public:
     constexpr const unsigned int GetHeight() { return this->height; };
     constexpr const unsigned int GetPosX() { return this->x; };
     constexpr const unsigned int GetPosY() { return this->y; };
+    constexpr const unsigned int GetFPS() { return this->fps; };
     constexpr const SDL_WindowFlags GetWindowFlags() { return this->flags; };
 
 protected:
@@ -35,6 +37,7 @@ private:
     unsigned int height = 640;
     unsigned int x = SDL_WINDOWPOS_UNDEFINED;
     unsigned int y = SDL_WINDOWPOS_UNDEFINED;
+    unsigned int fps = 60;
     SDL_WindowFlags flags = SDL_WINDOW_SHOWN;
     SDL_Event event;
 

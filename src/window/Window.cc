@@ -1,3 +1,9 @@
+#include <chrono>
+#include <thread>
+#include <iomanip>
+
+#include <glog/logging.h>
+
 #include "Window.hh"
 
 Window::Window()
@@ -48,6 +54,16 @@ void Window::SetPos(const unsigned int x, const unsigned int y)
 }
 
 /**
+ * @brief Set window displaying frame per seconds
+ *
+ * @param fps
+ */
+void Window::SetFPS(const unsigned int fps)
+{
+    this->fps = fps;
+}
+
+/**
  * @brief Set window displaying option flags
  *
  * @param flags
@@ -76,8 +92,15 @@ void Window::PushRenderFunction(std::function<void(Window *window)> fn)
  */
 void Window::StartGameLoop()
 {
+    std::chrono::system_clock::time_point start_time;
+    std::chrono::system_clock::time_point end_time;
+    std::chrono::duration<double> duration;
+    double frame_capping_ms = (1.0 / this->fps) * 1'000.0;
+
     while (true)
     {
+        start_time = std::chrono::system_clock::now();
+
         while (SDL_PollEvent(&this->event) != 0)
         {
             switch (this->event.type)
@@ -95,6 +118,21 @@ void Window::StartGameLoop()
         for (auto fn : this->rendering_functions)
         {
             fn(this);
+        }
+
+        end_time = std::chrono::system_clock::now();
+        duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+        // Debug logging delaytime
+        DLOG(INFO) << "gameloop delaytime: " << std::fixed << std::setprecision(5) << duration.count() << "(ms)";
+
+        // Frame capping
+        if (duration.count() < frame_capping_ms)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds((long long)(frame_capping_ms - duration.count())));
+
+            // Debug logging capping time
+            DLOG(INFO) << "gameloop capping time: " << std::fixed << std::setprecision(5) << (long long)(frame_capping_ms - duration.count()) << "(ms)";
         }
     }
 }

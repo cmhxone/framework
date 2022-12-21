@@ -22,10 +22,12 @@ int main(int argc, char *argv[])
     unsigned int height = Ini::GetInstance()->GetReader().GetInteger("window", "height", 600);
     unsigned int pos_x = Ini::GetInstance()->GetReader().GetInteger("window", "x", 0);
     unsigned int pos_y = Ini::GetInstance()->GetReader().GetInteger("window", "y", 0);
+    unsigned int fps = Ini::GetInstance()->GetReader().GetInteger("window", "fps", 60);
 
     window->SetTitle(title);
     window->SetSize(width, height);
     window->SetPos(pos_x == 0 ? SDL_WINDOWPOS_UNDEFINED : pos_x, pos_y == 0 ? SDL_WINDOWPOS_UNDEFINED : pos_y);
+    window->SetFPS(fps == 0 ? 60 : fps);
 
     window->PushRenderFunction([](Window *window) -> void
                                { LOG(INFO) << "renderfunction1(): title=" << window->GetTitle(); });
