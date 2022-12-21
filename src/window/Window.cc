@@ -61,6 +61,44 @@ void Window::SetWindowFlags(const SDL_WindowFlags flags)
 }
 
 /**
+ * @brief Push render-function to member vector
+ * 
+ * @param fn 
+ */
+void Window::PushRenderFunction(std::function<void()> fn)
+{
+    this->rendering_functions.push_back(fn);
+}
+
+/**
+ * @brief Start window's gameloop
+ * 
+ */
+void Window::StartGameLoop()
+{
+    while (true)
+    {
+        while (SDL_PollEvent(&this->event) != 0)
+        {
+            switch (this->event.type)
+            {
+            // Quit and terminate gameloop
+            case SDL_QUIT:
+                return;
+
+            default:
+                break;
+            }
+        }
+
+        // Call render-functions
+        for (auto fn : this->rendering_functions) {
+            fn();
+        }
+    }
+}
+
+/**
  * @brief Get window title name
  *
  * @return const std::string_view

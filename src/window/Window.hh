@@ -3,6 +3,8 @@
 
 #include <SDL2/SDL.h>
 #include <string_view>
+#include <vector>
+#include <functional>
 
 class Window
 {
@@ -14,6 +16,9 @@ public:
     void SetSize(const unsigned int width, const unsigned int height);
     void SetPos(const unsigned int x, const unsigned int y);
     void SetWindowFlags(const SDL_WindowFlags flags);
+    void PushRenderFunction(std::function<void()> fn);
+
+    void StartGameLoop();
 
     constexpr const std::string_view GetTitle();
     constexpr const unsigned int GetWidth();
@@ -31,6 +36,9 @@ private:
     unsigned int x = SDL_WINDOWPOS_UNDEFINED;
     unsigned int y = SDL_WINDOWPOS_UNDEFINED;
     SDL_WindowFlags flags = SDL_WINDOW_SHOWN;
+    SDL_Event event;
+
+    std::vector<std::function<void()>> rendering_functions;
 };
 
 #endif
