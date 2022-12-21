@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     }
 
     std::unique_ptr<Window> window(new Window());
-    std::string_view title = Ini::GetInstance()->GetReader().GetString("window", "title", "framework");
+    std::string title = Ini::GetInstance()->GetReader().GetString("window", "title", "framework").data();
     unsigned int width = Ini::GetInstance()->GetReader().GetInteger("window", "width", 800);
     unsigned int height = Ini::GetInstance()->GetReader().GetInteger("window", "height", 600);
     unsigned int pos_x = Ini::GetInstance()->GetReader().GetInteger("window", "x", 0);
