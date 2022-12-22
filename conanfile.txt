@@ -17,7 +17,7 @@ glog:shared=True
 gflags:shared=True
 sdl_mixer:mad=False
 sdl_mixer:ogg=True
-inih
+inih:shared=True
 zlib:shared=True
 
 [generators]
