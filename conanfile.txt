@@ -1,0 +1,29 @@
+[requires]
+sdl/2.26.0
+sdl_image/2.0.5
+sdl_mixer/2.0.4
+sdl_ttf/2.0.18
+glog/0.6.0
+gflags/2.2.2
+inih/56
+libpng/1.6.39
+zlib/1.2.13
+
+[options]
+sdl:shared=True
+sdl_image:shared=True
+sdl_mixer:shared=True
+glog:shared=True
+gflags:shared=True
+sdl_mixer:mad=False
+sdl_mixer:ogg=True
+inih
+zlib:shared=True
+
+[generators]
+cmake
+
+[imports]
+bin, *.dll -> ./bin
+lib, *.dylib* -> ./bin
+lib, *.so* -> ./bin

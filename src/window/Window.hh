@@ -46,7 +46,7 @@ private:
     SDL_Event event;
 
     std::vector<std::function<void(Window *window)>> rendering_functions;
-    std::map<int, SDL_Renderer *> renderers;
+    std::unordered_map<int, SDL_Renderer *> renderers;
 };
 
 #endif

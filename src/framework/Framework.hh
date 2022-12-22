@@ -28,7 +28,7 @@ namespace framework
 
         // init glog library
         google::InitGoogleLogging(argv[0]);
-        google::ParseCommandLineFlags(argc, &argv, true);
+        gflags::ParseCommandLineFlags(argc, &argv, true);
         LOG(INFO) << "glog Initialized";
 
         // init SDL library
