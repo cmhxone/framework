@@ -12,18 +12,27 @@ zlib/1.2.13
 [options]
 sdl:shared=True
 sdl_image:shared=True
+
+glog:shared=False
+
+gflags:shared=False
+gflags:namespace=gflags
+
 sdl_mixer:shared=True
-glog:shared=True
-gflags:shared=True
-sdl_mixer:mad=False
 sdl_mixer:ogg=True
-inih:shared=True
-zlib:shared=True
+sdl_mixer:mad=False
+sdl_mixer:nativemidi=False
+
+inih:shared=False
+
+zlib:shared=False
 
 [generators]
 cmake
+CMakeDeps
+CMakeToolchain
 
 [imports]
 bin, *.dll -> ./bin
-lib, *.dylib* -> ./bin
-lib, *.so* -> ./bin
+lib, *.dylib* -> ./lib
+lib, *.so* -> ./lib

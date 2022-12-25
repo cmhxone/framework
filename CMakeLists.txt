@@ -11,7 +11,16 @@ set(CXX_STANDARD_REQUIRED true)
 set(CXX_STANDARD 20)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
+conan_basic_setup(KEEP_RPATHS)
+
+# Set rpath to load correct libraries
+if (APPLE)
+    set(CMAKE_INSTALL_RPATH "@executable_path/../lib")
+else ()
+    set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
+endif ()
+
+set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 
 # Copy INI files to cmake binary path
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/resources/config.ini ${CMAKE_BINARY_DIR}/resources/config.ini COPYONLY)
@@ -35,7 +44,7 @@ message(${SOURCE_FILES})
 # Compile binary executable
 add_executable(framework ${SOURCE_FILES})
 
-target_link_libraries(framework ${CONAN_LIBS})
+conan_target_link_libraries(framework)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
